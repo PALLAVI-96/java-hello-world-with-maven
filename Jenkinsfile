@@ -1,20 +1,20 @@
-pipeline{
+pipeline {
     agent any
 
     tools {
-         maven 'maven'
-         jdk 'java'
+        maven 'maven-3.8'  // Name must match your Maven installation in Jenkins
     }
 
-    stages{
-        stage('checkout'){
-            steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'github access', url: 'https://github.com/sreenivas449/java-hello-world-with-maven.git']]])
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
             }
         }
-        stage('build'){
-            steps{
-               bat 'mvn package'
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
             }
         }
     }
